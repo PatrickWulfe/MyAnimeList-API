@@ -15,6 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+library myanimelist_api;
+
 export 'src/client.dart';
 export 'src/exceptions.dart';
 export 'src/models.dart';

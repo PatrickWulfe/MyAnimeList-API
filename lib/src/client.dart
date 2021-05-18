@@ -33,107 +33,107 @@ import 'templates/manga_list.dart';
 /// Main MyAnimeList client
 class Client {
   /// Base URL for all requests.
-  final String baseUrl = "https://api.myanimelist.net/v2/";
+  final String baseUrl = 'https://api.myanimelist.net/v2/';
 
-  RequestHandler _handler;
-  Map<String, String> _headers;
+  late RequestHandler _handler;
+  Map<String, String>? _headers;
 
   /// See https://myanimelist.net/blog.php?eid=835707.
-  String accessToken;
+  String? accessToken;
 
   final Set<String> _animeFields = {
-    "id",
-    "title",
-    "main_picture",
-    "alternative_titles",
-    "start_date",
-    "end_date",
-    "synopsis",
-    "mean",
-    "rank",
-    "popularity",
-    "num_list_users",
-    "num_scoring_users",
-    "nsfw",
-    "created_at",
-    "updated_at",
-    "media_type",
-    "status",
-    "genres",
-    "my_list_status",
-    "num_episodes",
-    "start_season",
-    "broadcast",
-    "source",
-    "average_episode_duration",
-    "rating",
-    "pictures",
-    "background",
-    "related_anime",
-    "related_manga",
-    "recommendations",
-    "studios",
-    "statistics"
+    'id',
+    'title',
+    'main_picture',
+    'alternative_titles',
+    'start_date',
+    'end_date',
+    'synopsis',
+    'mean',
+    'rank',
+    'popularity',
+    'num_list_users',
+    'num_scoring_users',
+    'nsfw',
+    'created_at',
+    'updated_at',
+    'media_type',
+    'status',
+    'genres',
+    'my_list_status',
+    'num_episodes',
+    'start_season',
+    'broadcast',
+    'source',
+    'average_episode_duration',
+    'rating',
+    'pictures',
+    'background',
+    'related_anime',
+    'related_manga',
+    'recommendations',
+    'studios',
+    'statistics'
   };
 
   final Set<String> _mangaFields = {
-    "id",
-    "title",
-    "main_picture",
-    "alternative_titles",
-    "start_date",
-    "end_date",
-    "synopsis",
-    "mean",
-    "rank",
-    "popularity",
-    "num_list_users",
-    "num_scoring_users",
-    "nsfw",
-    "created_at",
-    "updated_at",
-    "media_type",
-    "status",
-    "genres",
-    "my_list_status",
-    "num_volumes",
-    "num_chapters",
-    "authors{first_name,last_name}",
-    "pictures",
-    "background",
-    "related_anime",
-    "related_manga",
-    "recommendations",
-    "serialization"
+    'id',
+    'title',
+    'main_picture',
+    'alternative_titles',
+    'start_date',
+    'end_date',
+    'synopsis',
+    'mean',
+    'rank',
+    'popularity',
+    'num_list_users',
+    'num_scoring_users',
+    'nsfw',
+    'created_at',
+    'updated_at',
+    'media_type',
+    'status',
+    'genres',
+    'my_list_status',
+    'num_volumes',
+    'num_chapters',
+    'authors{first_name,last_name}',
+    'pictures',
+    'background',
+    'related_anime',
+    'related_manga',
+    'recommendations',
+    'serialization'
   };
 
   final Set<String> _animeRankingTypes = {
-    "all",
-    "airing",
-    "upcoming",
-    "tv",
-    "ova",
-    "movie",
-    "special",
-    "bypopularity",
-    "favorite"
+    'all',
+    'airing',
+    'upcoming',
+    'tv',
+    'ova',
+    'movie',
+    'special',
+    'bypopularity',
+    'favorite'
   };
 
-  final Set<String> _seasons = {"winter", "spring", "summer", "fall"};
+  final Set<String> _seasons = {'winter', 'spring', 'summer', 'fall'};
 
-  final Set<String> _sortOptions = {"anime_score", "anime_num_list_users"};
+  final Set<String> _sortOptions = {'anime_score', 'anime_num_list_users'};
 
   final Set<String> _mangaRankingTypes = {
-    "all",
-    "manga",
-    "oneshots",
-    "doujin",
-    "lightnovels",
-    "novels",
-    "manhwa",
-    "manhua",
-    "bypopularity",
-    "favorite"
+    'all',
+    'manga',
+    'oneshots',
+    'doujin',
+    'lightnovels',
+    'novels',
+    'manhwa',
+    'manhua',
+    'bypopularity',
+    'favorite'
   };
 
   Client(this.accessToken) {
@@ -146,17 +146,17 @@ class Client {
   /// Max [limit] is 100.
   Future<List<Node>> searchAnime(String keyword,
       {int limit = 10, int offset = 0}) async {
-    var uri = "anime";
+    var uri = 'anime';
     var params = {'q': keyword, 'limit': '$limit', 'offset': '$offset'};
     var json = await _handler.call(uri: uri, params: params);
     var response = GenericResponse.fromJson(json);
-    return response.data.map((e) => e.node).toList();
+    return response.data!.map((e) => e.node!).toList();
   }
 
   /// Returns complete [Anime] object.
   Future<Anime> getAnimeDetails(int id) async {
-    var uri = "anime/$id";
-    var params = {'fields': _animeFields.join(",")};
+    var uri = 'anime/$id';
+    var params = {'fields': _animeFields.join(',')};
     var json = await _handler.call(uri: uri, params: params);
     return Anime.fromJson(json);
   }
@@ -171,10 +171,10 @@ class Client {
   ///
   /// Throws [ArgumentError] if [rankingType] is invalid.
   Future<List<RankedNode>> getAnimeRanking(
-      {String rankingType = "all", int limit = 10, int offset = 0}) async {
-    var uri = "anime/ranking";
+      {String rankingType = 'all', int limit = 10, int offset = 0}) async {
+    var uri = 'anime/ranking';
     if (!_animeRankingTypes.contains(rankingType.toLowerCase())) {
-      throw ArgumentError.value(rankingType, "rankingType");
+      throw ArgumentError.value(rankingType, 'rankingType');
     }
     var params = {
       'ranking_type': rankingType,
@@ -183,7 +183,7 @@ class Client {
     };
     var json = await _handler.call(uri: uri, params: params);
     var response = RankedResponse.fromJson(json);
-    return response.data;
+    return response.data!;
   }
 
   /// Returns list of [Node] objects based on [year] and [season].
@@ -196,27 +196,27 @@ class Client {
   ///
   /// Throws [ArgumentError] if [season] or [sort] is invalid.
   Future<List<Node>> getSeasonalAnime(int year, String season,
-      {String sort = "anime_score", int limit = 10, int offset = 0}) async {
+      {String sort = 'anime_score', int limit = 10, int offset = 0}) async {
     if (!_seasons.contains(season.toLowerCase())) {
-      throw ArgumentError.value(season, "season");
+      throw ArgumentError.value(season, 'season');
     }
     if (!_sortOptions.contains(sort.toLowerCase())) {
-      throw ArgumentError.value(sort, "sort");
+      throw ArgumentError.value(sort, 'sort');
     }
-    var uri = "anime/season/$year/$season";
+    var uri = 'anime/season/$year/$season';
     var params = {'sort': sort, 'limit': '$limit', 'offset': '$offset'};
     var json = await _handler.call(uri: uri, params: params);
     var response = GenericResponse.fromJson(json);
-    return response.data.map((e) => e.node).toList();
+    return response.data!.map((e) => e.node!).toList();
   }
 
   /// Returns list of suggested [Node] objects for the authorized user.
   Future<List<Node>> getSuggestedAnime({int limit = 10, int offset = 0}) async {
-    var uri = "anime/suggestions";
+    var uri = 'anime/suggestions';
     var params = {'limit': '$limit', 'offset': '$offset'};
     var json = await _handler.call(uri: uri, params: params);
     var response = GenericResponse.fromJson(json);
-    return response.data.map((e) => e.node).toList();
+    return response.data!.map((e) => e.node!).toList();
   }
 
   /// Returns list of [Node] objects based on [keyword].
@@ -224,17 +224,17 @@ class Client {
   /// Max [limit] is 100.
   Future<List<Node>> searchManga(String keyword,
       {int limit = 10, int offset = 0}) async {
-    var uri = "manga";
+    var uri = 'manga';
     var params = {'q': keyword, 'limit': '$limit', 'offset': '$offset'};
     var json = await _handler.call(uri: uri, params: params);
     var response = GenericResponse.fromJson(json);
-    return response.data.map((e) => e.node).toList();
+    return response.data!.map((e) => e.node!).toList();
   }
 
   /// Returns complete [Manga] object.
   Future<Manga> getMangaDetails(int id) async {
-    var uri = "manga/$id";
-    var params = {'fields': _mangaFields.join(",")};
+    var uri = 'manga/$id';
+    var params = {'fields': _mangaFields.join(',')};
     var json = await _handler.call(uri: uri, params: params);
     return Manga.fromJson(json);
   }
@@ -249,10 +249,10 @@ class Client {
   ///
   /// Throws [ArgumentError] if [rankingType] is invalid.
   Future<List<RankedNode>> getMangaRanking(
-      {String rankingType = "all", int limit = 10, int offset = 0}) async {
-    var uri = "manga/ranking";
+      {String rankingType = 'all', int limit = 10, int offset = 0}) async {
+    var uri = 'manga/ranking';
     if (!_mangaRankingTypes.contains(rankingType.toLowerCase())) {
-      throw ArgumentError.value(rankingType, "rankingType");
+      throw ArgumentError.value(rankingType, 'rankingType');
     }
     var params = {
       'ranking_type': rankingType,
@@ -261,16 +261,16 @@ class Client {
     };
     var json = await _handler.call(uri: uri, params: params);
     var response = RankedResponse.fromJson(json);
-    return response.data;
+    return response.data!;
   }
 
   /// Updates anime list with anime of [id].
   ///
   /// Returns [true] on success.
   Future<bool> updateAnimeList(int id, AnimeListTemplate list) async {
-    var uri = "anime/$id/my_list_status";
+    var uri = 'anime/$id/my_list_status';
     var result =
-        await _handler.call(method: "patch", uri: uri, body: list.toMap());
+        await _handler.call(method: 'patch', uri: uri, body: list.toMap());
     return result;
   }
 
@@ -279,8 +279,8 @@ class Client {
   /// Returns [true] on success and [false] if the anime
   /// is not in the list.
   Future<bool> deleteAnimeFromList(int id) async {
-    var uri = "anime/$id/my_list_status";
-    var result = await _handler.call(method: "delete", uri: uri);
+    var uri = 'anime/$id/my_list_status';
+    var result = await _handler.call(method: 'delete', uri: uri);
     return result == 200 ? true : false;
   }
 
@@ -299,12 +299,12 @@ class Client {
   ///
   /// Max [limit] is 1000.
   Future<List<AnimeList>> getAnimeList(
-      {String username = "@me",
-      String status = "",
-      String sort = "",
+      {String username = '@me',
+      String status = '',
+      String sort = '',
       int limit = 10,
       int offset = 0}) async {
-    var uri = "users/$username/animelist";
+    var uri = 'users/$username/animelist';
     var params = {
       if (status.isNotEmpty) 'status': status,
       if (sort.isNotEmpty) 'sort': sort,
@@ -314,16 +314,16 @@ class Client {
     };
     var json = await _handler.call(uri: uri, params: params);
     var response = AnimeListResponse.fromJson(json);
-    return response.data;
+    return response.data!;
   }
 
   /// Updates manga list with manga of [id].
   ///
   /// Returns [true] on success.
   Future<bool> updateMangaList(int id, MangaListTemplate list) async {
-    var uri = "manga/$id/my_list_status";
+    var uri = 'manga/$id/my_list_status';
     var result =
-        await _handler.call(method: "patch", uri: uri, body: list.toMap());
+        await _handler.call(method: 'patch', uri: uri, body: list.toMap());
     return result;
   }
 
@@ -332,8 +332,8 @@ class Client {
   /// Returns [true] on success and [false] if the manga
   /// is not in the list.
   Future<bool> deleteMangaFromList(int id) async {
-    var uri = "manga/$id/my_list_status";
-    var result = await _handler.call(method: "delete", uri: uri);
+    var uri = 'manga/$id/my_list_status';
+    var result = await _handler.call(method: 'delete', uri: uri);
     return result == 200 ? true : false;
   }
 
@@ -352,12 +352,12 @@ class Client {
   ///
   /// Max [limit] is 1000.
   Future<List<MangaList>> getMangaList(
-      {String username = "@me",
-      String status = "",
-      String sort = "",
+      {String username = '@me',
+      String status = '',
+      String sort = '',
       int limit = 10,
       int offset = 0}) async {
-    var uri = "users/$username/mangalist";
+    var uri = 'users/$username/mangalist';
     var params = {
       if (status.isNotEmpty) 'status': status,
       if (sort.isNotEmpty) 'sort': sort,
@@ -367,15 +367,15 @@ class Client {
     };
     var json = await _handler.call(uri: uri, params: params);
     var response = MangaListResponse.fromJson(json);
-    return response.data;
+    return response.data!;
   }
 
   /// Returns user information about [username].
   ///
   /// Currently, [username] can only be '@me'.
   /// This may change in the future.
-  Future<User> getUserInfo({String username = "@me"}) async {
-    var uri = "users/$username";
+  Future<User> getUserInfo({String username = '@me'}) async {
+    var uri = 'users/$username';
     var params = {'fields': 'anime_statistics'};
     var json = await _handler.call(uri: uri, params: params);
     return User.fromJson(json);

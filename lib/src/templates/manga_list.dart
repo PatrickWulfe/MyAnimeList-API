@@ -19,12 +19,12 @@
 class MangaListTemplate {
   /// Possible values: 'reading', 'completed', 'on_hold', 'dropped',
   /// plan_to_read'
-  final String status;
+  final String? status;
 
   final bool isRereading;
 
   /// Possible values: 0-10
-  final int score;
+  final int? score;
   final int numVolumesRead;
   final int numChaptersRead;
 
@@ -46,11 +46,11 @@ class MangaListTemplate {
       this.priority = 0,
       this.numTimesReread = 0,
       this.rereadValue = 0,
-      this.tags = "",
-      this.comments = ""});
+      this.tags = '',
+      this.comments = ''});
 
   /// Returns map for encoding as form fields.
-  Map<String, String> toMap() {
+  Map<String, String?> toMap() {
     return {
       'status': status,
       'is_rereading': isRereading.toString(),

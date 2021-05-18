@@ -19,12 +19,12 @@
 class AnimeListTemplate {
   /// Possible values: 'watching', 'completed', 'on_hold', 'dropped',
   /// 'plan_to_watch'.
-  final String status;
+  final String? status;
 
   final bool isRewatching;
 
   /// Possible values: 0-10
-  final int score;
+  final int? score;
   final int numWatchedEpisodes;
 
   /// Possible values: 0-2
@@ -44,11 +44,11 @@ class AnimeListTemplate {
       this.priority = 0,
       this.numTimesRewatched = 0,
       this.rewatchValue = 0,
-      this.tags = "",
-      this.comments = ""});
+      this.tags = '',
+      this.comments = ''});
 
   /// Returns map for encoding as form fields.
-  Map<String, String> toMap() {
+  Map<String, String?> toMap() {
     return {
       'status': status,
       'is_rewatching': isRewatching.toString(),
